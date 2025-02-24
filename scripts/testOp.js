@@ -10,7 +10,7 @@ async function main() {
 
   console.log(count);
 
-  console.log(
+  /*console.log(
     "account balance",
     await hre.ethers.provider.getBalance(ACCOUNT_ADDRESS)
   );
@@ -25,7 +25,7 @@ async function main() {
   console.log(
     "paymaster balance on EP",
     await ep.balanceOf(PM_ADDRESS)
-  );
+  );*/
 }
 
 
