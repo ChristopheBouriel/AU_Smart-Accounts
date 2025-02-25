@@ -9,13 +9,13 @@ async function main() {
     `AF Deployed to ${af.target}`
   );
 
-  const ep = await hre.ethers.deployContract("EntryPoint");
+  /* const ep = await hre.ethers.deployContract("EntryPoint");
 
   await ep.waitForDeployment();
 
   console.log(
     `EP Deployed to ${ep.target}`
-  );
+  ); */
 
   const pm = await hre.ethers.deployContract("Paymaster");
 
