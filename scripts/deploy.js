@@ -17,13 +17,13 @@ async function main() {
     `EP Deployed to ${ep.target}`
   ); */
 
-  const pm = await hre.ethers.deployContract("Paymaster");
+  /* const pm = await hre.ethers.deployContract("Paymaster");
 
   await pm.waitForDeployment();
 
   console.log(
     `PM Deployed to ${pm.target}`
-  );
+  ); */
 }
 
 

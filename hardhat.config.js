@@ -3,7 +3,7 @@ require("dotenv").config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  defaultNetwork: "localhost",
+  defaultNetwork: "sepolia", // "localhost",
   networks: {
     sepolia: {
       url: process.env.API_URL,

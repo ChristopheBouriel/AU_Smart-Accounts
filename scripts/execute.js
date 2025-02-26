@@ -1,12 +1,12 @@
 const hre = require("hardhat");
 
 // const FACTORY_NONCE = 1;
-const FACTORY_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const FACTORY_ADDRESS = "0xeC99d1513A6419Aa26F506dcfac98F6B913b9A26";
 // For the last step we don't need to deploy the entryPoint on the testnet because we will use a supported one
 // https://docs.alchemy.com/reference/eth-estimateuseroperationgas
 // const EP_ADDRESS = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 const EP_ADDRESS = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
-const PM_ADDRESS = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+const PM_ADDRESS = "0x0C071d7534Ad172e849473607C335c768199Ec37";
 
 async function main() {
   const entryPoint = await hre.ethers.getContractAt("EntryPoint", EP_ADDRESS);
@@ -58,7 +58,7 @@ async function main() {
     signature: "0xfffffffffffffffffffffffffffffff0000000000000000000000000000000007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1c",
   };
 
-  const {preVerificationGas, verificationGasLimit, callGasLimit} = hre.ethers.provider.send("eth_estimateUserOperationGas", [ 
+  const {preVerificationGas, verificationGasLimit, callGasLimit} = await hre.ethers.provider.send("eth_estimateUserOperationGas", [ 
     userOp,
     EP_ADDRESS,
   ]);
@@ -77,10 +77,16 @@ async function main() {
   userOp.signature = await signer0.signMessage(hre.ethers.getBytes(userOpHash));
   // userOp.signature = signer1.signMessage(hre.ethers.getBytes(userOpHash)); cannot work signer1 doesn't match userOphash
   
-  const opHash = await hre.ethers.provider.send("eth_sendUserOperation", [userOp, EP_ADDRESS]);
+  const opHash = await ethers.provider.send("eth_sendUserOperation", [userOp, EP_ADDRESS]);
 
   console.log(opHash);
 
+  setTimeout(async () => {
+    const { transactionHash } = await ethers.provider.send("eth_getUserOperationByHash", [opHash]);
+
+    console.log(transactionHash);
+  }, 30000);
+ 
   /*const tx = await entryPoint.handleOps([userOp], address0);
   const receipt = await tx.wait();
   console.log(receipt);*/
@@ -90,6 +96,3 @@ main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
-
-/* Account #0: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 (10000 ETH)
-Private Key: 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 */
